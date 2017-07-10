@@ -62,8 +62,8 @@ class GitUtil():
 
     def resetVersion(self, sha):
         print 'Start reset version'
-        subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'git', 'reset', '--hard', sha], shell=True).wait()
-        subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'git', 'clean', '-xdf'], shell=True).wait()
+        subprocess.Popen(['git', 'reset', '--hard', sha], shell=True, cwd=self.PROJECT_PATH).wait()
+        subprocess.Popen(['git', 'clean', '-xdf'], shell=True, cwd=self.PROJECT_PATH).wait()
 
         # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'reset', '--hard', sha])
         # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'clean', '-xdf'])
@@ -73,7 +73,7 @@ class GitUtil():
         try:
             # subprocess.check_call(['mvn', 'clean', 'install', '-DskipTests'], shell=True, cwd=self.PROJECT_PATH)
 
-            subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'mvn', 'clean', 'install', '-Dmaven.test.skip=true'], shell=True).wait()
+            subprocess.Popen(['mvn', 'clean', 'install', '-Dmaven.test.skip=true'], shell=True, cwd=self.PROJECT_PATH).wait()
 
             # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'mvn', 'clean', 'install', '-Dmaven.test.skip=true'])
         except:
