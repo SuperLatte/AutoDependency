@@ -42,9 +42,9 @@ class GitUtil():
         if os.path.exists(self.PROJECT_PATH):
             print 'Start pulling ' + self.user + '/' + self.repo
 
-            call(['git', 'fetch', '--all'], cwd=self.PROJECT_PATH, shell=True)
-            call(['git', 'reset', '--hard', 'origin'], cwd=self.PROJECT_PATH, shell=True)
-            call(['git', 'pull'], cwd=self.PROJECT_PATH, shell=True)
+            call('git fetch --all', cwd=self.PROJECT_PATH, shell=True)
+            call('git reset --hard origin', cwd=self.PROJECT_PATH, shell=True)
+            call('git pull', cwd=self.PROJECT_PATH, shell=True)
 
             return
 
@@ -52,13 +52,13 @@ class GitUtil():
         # sshUrl = 'git@github.com:'+self.user+'/'+self.repo+'.git'
         httpsUrl = 'https://github.com/'+self.user+'/'+self.repo+'.git'
 
-        call(['git', 'clone', httpsUrl, self.PROJECT_PATH], shell=True)
+        call(['git clone '+httpsUrl+' '+self.PROJECT_PATH], shell=True)
 
 
     def resetVersion(self, sha):
         print 'Start reset version'
 
-        call(['git', 'reset', '--hard', sha], cwd=self.PROJECT_PATH, shell=True)
+        call(['git reset --hard '+sha], cwd=self.PROJECT_PATH, shell=True)
         call(['git', 'clean', '-xdf'], cwd=self.PROJECT_PATH, shell=True)
 
     def mvnInstall(self):
@@ -66,6 +66,6 @@ class GitUtil():
         try:
             # subprocess.check_call(['mvn', 'clean', 'install', '-DskipTests'], shell=True, cwd=self.PROJECT_PATH)
 
-            call(['mvn', 'clean', 'install', '-Dmaven.test.skip=true'], cwd=self.PROJECT_PATH, shell=True)
+            call(['mvn clean install -Dmaven.test.skip=true'], cwd=self.PROJECT_PATH, shell=True)
         except:
             pass
