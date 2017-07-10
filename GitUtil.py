@@ -42,9 +42,9 @@ class GitUtil():
         if os.path.exists(self.PROJECT_PATH):
             print 'Start pulling ' + self.user + '/' + self.repo
 
-            subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'fetch', '--all'], shell=True)
-            subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'reset', '--hard', 'origin'], shell=True)
-            subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'pull'], shell=True)
+            subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'git', 'fetch', '--all'], shell=True).wait()
+            subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'git', 'reset', '--hard', 'origin'], shell=True).wait()
+            subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'git', 'pull'], shell=True).wait()
 
             # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'fetch', '--all'])
             # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'reset', '--hard', 'origin'])
@@ -58,11 +58,11 @@ class GitUtil():
 
         # subprocess.check_call(['git', 'clone', httpsUrl, self.PROJECT_PATH], shell=True)
 
-        subprocess.check_call(['git', 'clone', httpsUrl, self.PROJECT_PATH])
+        subprocess.Popen(['git', 'clone', httpsUrl, self.PROJECT_PATH]).wait()
 
     def resetVersion(self, sha):
-        subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'reset', '--hard', sha], shell=True)
-        subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'clean', '-xdf'], shell=True)
+        subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'git', 'reset', '--hard', sha], shell=True).wait()
+        subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'git', 'clean', '-xdf'], shell=True).wait()
 
         # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'reset', '--hard', sha])
         # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'clean', '-xdf'])
@@ -71,7 +71,7 @@ class GitUtil():
         try:
             # subprocess.check_call(['mvn', 'clean', 'install', '-DskipTests'], shell=True, cwd=self.PROJECT_PATH)
 
-            subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'mvn', 'clean', 'install', '-Dmaven.test.skip=true'], shell=True)
+            subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'mvn', 'clean', 'install', '-Dmaven.test.skip=true'], shell=True).wait()
 
             # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'mvn', 'clean', 'install', '-Dmaven.test.skip=true'])
         except:
