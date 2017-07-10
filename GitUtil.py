@@ -37,8 +37,11 @@ class GitUtil():
 
     def clone(self):
 
+
         if os.path.exists(self.PROJECT_PATH):
             print 'Start pulling ' + self.user + '\\' + self.repo
+            subprocess.check_call(['git', 'fetch', '--all'], shell=True, cwd=self.PROJECT_PATH)
+            subprocess.check_call(['git', 'reset', '--hard', 'origin/master'], shell=True, cwd=self.PROJECT_PATH)
             subprocess.check_call(['git', 'pull'], shell=True, cwd=self.PROJECT_PATH)
             return
 
@@ -47,4 +50,12 @@ class GitUtil():
         subprocess.check_call(['git', 'clone', sshUrl], shell=True, cwd=Commons.REPO_PATH)
 
     def resetVersion(self, sha):
-        subprocess.check_call(['git', 'reset', '--hard', sha], cwd=self.PROJECT_PATH)
+        subprocess.check_call(['git', 'reset', '--hard', sha], shell=True, cwd=self.PROJECT_PATH)
+        subprocess.check_call(['git', 'clean', '-xdf', sha], shell=True, cwd=self.PROJECT_PATH)
+
+    def mvnInstall(self):
+        try:
+            # subprocess.check_call(['mvn', 'clean', 'install', '-DskipTests'], shell=True, cwd=self.PROJECT_PATH)
+            subprocess.check_call(['mvn', 'clean', 'install', '-Dmaven.test.skip=true'], shell=True, cwd=self.PROJECT_PATH)
+        except:
+            pass
