@@ -54,7 +54,7 @@ class GitUtil():
         # sshUrl = 'git@github.com:'+self.user+'/'+self.repo+'.git'
         httpsUrl = 'https://github.com/'+self.user+'/'+self.repo+'.git'
         # subprocess.check_call(['git', 'clone', httpsUrl], shell=True, cwd=Commons.REPO_PATH)
-        subprocess.check_call(['cd', Commons.REPO_PATH, '&&', 'git', 'clone', httpsUrl], shell=True)
+        subprocess.check_call(['git', 'clone', httpsUrl, self.PROJECT_PATH], shell=True)
 
     def resetVersion(self, sha):
         # subprocess.check_call(['git', 'reset', '--hard', sha], shell=True, cwd=self.PROJECT_PATH)
