@@ -5,15 +5,15 @@ import subprocess
 import json
 
 def callGraph(user, repo, tag):
-    OUTPUT_REPO_PATH = Commons.OUTPUT_PATH+repo+'\\'
+    OUTPUT_REPO_PATH = Commons.OUTPUT_PATH+repo+'/'
     if not os.path.exists(OUTPUT_REPO_PATH):
         os.mkdir(OUTPUT_REPO_PATH)
 
-    TARGET_PATH = Commons.REPO_PATH+repo+'\\target\\'
+    TARGET_PATH = Commons.REPO_PATH+repo+'/target/'
     if not os.path.exists(TARGET_PATH):
         return
 
-    OUTPUT_VERSION_PATH = OUTPUT_REPO_PATH+tag+'\\'
+    OUTPUT_VERSION_PATH = OUTPUT_REPO_PATH+tag+'/'
     if not os.path.exists(OUTPUT_VERSION_PATH):
         os.mkdir(OUTPUT_VERSION_PATH)
 
@@ -24,10 +24,10 @@ def callGraph(user, repo, tag):
                                    TARGET_PATH+file, '>', OUTPUT_VERSION_PATH+file[:-4]+'.tmp'], shell=True)
 
 def generateGraph(user, repo):
-    for root, dirs, files in os.walk(Commons.OUTPUT_PATH+repo+'\\'):
+    for root, dirs, files in os.walk(Commons.OUTPUT_PATH+repo+'/'):
         for file in files:
             if file.endswith('.tmp'):
-                with open(root+'\\'+file) as f:
+                with open(root+'/'+file) as f:
                     callGraphs = f.readlines()
                 callGraphs = [x.strip() for x in callGraphs]
                 callGraphs = list(set(callGraphs))
@@ -67,7 +67,7 @@ def generateGraph(user, repo):
                     'class_call': class_call,
                     'method_call': method_call
                 }
-                output_file = open(root+'\\'+file[:-4]+'.json', 'wb')
+                output_file = open(root+'/'+file[:-4]+'.json', 'wb')
                 output_file.write(json.dumps(callGraphs_output))
 
                 print file + ' done.'

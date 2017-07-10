@@ -9,7 +9,7 @@ class GitUtil():
     def __init__(self, user, repo):
         self.user = user
         self.repo = repo
-        self.PROJECT_PATH = Commons.REPO_PATH+self.repo+'\\'
+        self.PROJECT_PATH = Commons.REPO_PATH+self.repo+'/'
         pass
 
     def getTags(self):
@@ -39,13 +39,13 @@ class GitUtil():
 
 
         if os.path.exists(self.PROJECT_PATH):
-            print 'Start pulling ' + self.user + '\\' + self.repo
+            print 'Start pulling ' + self.user + '/' + self.repo
             subprocess.check_call(['git', 'fetch', '--all'], shell=True, cwd=self.PROJECT_PATH)
             subprocess.check_call(['git', 'reset', '--hard', 'origin/master'], shell=True, cwd=self.PROJECT_PATH)
             subprocess.check_call(['git', 'pull'], shell=True, cwd=self.PROJECT_PATH)
             return
 
-        print 'Start cloning ' + self.user + '\\' + self.repo
+        print 'Start cloning ' + self.user + '/' + self.repo
         sshUrl = 'git@github.com:'+self.user+'/'+self.repo+'.git'
         httpsUrl = 'https://github.com/'+self.user+'/'+self.repo+'.git'
         subprocess.check_call(['git', 'clone', httpsUrl], shell=True, cwd=Commons.REPO_PATH)
