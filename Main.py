@@ -9,19 +9,20 @@ def callGraph(user, repo, tag):
     if not os.path.exists(OUTPUT_REPO_PATH):
         os.mkdir(OUTPUT_REPO_PATH)
 
-    TARGET_PATH = Commons.REPO_PATH+repo+'/target/'
-    if not os.path.exists(TARGET_PATH):
-        return
+    # TARGET_PATH = Commons.REPO_PATH+repo+'/target/'
+    # if not os.path.exists(TARGET_PATH):
+    #     return
 
     OUTPUT_VERSION_PATH = OUTPUT_REPO_PATH+tag+'/'
     if not os.path.exists(OUTPUT_VERSION_PATH):
         os.mkdir(OUTPUT_VERSION_PATH)
 
-
-    for file in os.listdir(TARGET_PATH):
-        if file.endswith('.jar'):
-            subprocess.check_call(['java', '-jar', Commons.CALLTOOL_PATH,
-                                   TARGET_PATH+file, '>', OUTPUT_VERSION_PATH+file[:-4]+'.tmp'], shell=True)
+    PROJECT_PATH = Commons.REPO_PATH+repo+'/'
+    for root, dirs, files in os.walk(PROJECT_PATH):
+        for file in files:
+            if file.endswith('.jar') and 'target' in root:
+                subprocess.check_call(['java', '-jar', Commons.CALLTOOL_PATH,
+                                       root+'/'+file, '>', OUTPUT_VERSION_PATH+file[:-4]+'.tmp'], shell=True)
 
 def generateGraph(user, repo):
     for root, dirs, files in os.walk(Commons.OUTPUT_PATH+repo+'/'):
@@ -105,5 +106,6 @@ if __name__ == "__main__":
             callGraph(user, repo, name)
 
         generateGraph(user, repo)
+    # callGraph('apache', 'maven-release', 'maven-release-2.5.3')
 
     print 'Program ends'
