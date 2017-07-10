@@ -2,3 +2,5 @@
 .idea/
 repos/
 output/
+Commons.py
+projects.json

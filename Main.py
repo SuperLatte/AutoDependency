@@ -82,22 +82,28 @@ if __name__ == "__main__":
     if not os.path.exists(Commons.OUTPUT_PATH):
         os.mkdir(Commons.OUTPUT_PATH)
 
+    with open("projects.json") as f:
+        projects = f.readlines()
 
-    user = 'apache'
-    repo = 'commons-math'
+    projects = ''.join([x.strip() for x in projects])
+    projects = json.loads(str(projects))
 
-    gitUtil = GitUtil(user, repo)
-    gitUtil.clone()
+    for project in projects:
+        user = project['user']
+        repo = project['repo']
 
-    tags = gitUtil.getTags()
-    for tag in tags:
-        name = tag['name']
-        sha = tag['sha']
-
-        gitUtil.resetVersion(sha)
-        gitUtil.mvnInstall()
-        callGraph(user, repo, name)
-
-    generateGraph(user, repo)
+        # gitUtil = GitUtil(user, repo)
+        # gitUtil.clone()
+        #
+        # tags = gitUtil.getTags()
+        # for tag in tags:
+        #     name = tag['name']
+        #     sha = tag['sha']
+        #
+        #     gitUtil.resetVersion(sha)
+        #     gitUtil.mvnInstall()
+        #     callGraph(user, repo, name)
+        #
+        # generateGraph(user, repo)
 
     print 'Program ends'
