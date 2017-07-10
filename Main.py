@@ -92,18 +92,18 @@ if __name__ == "__main__":
         user = project['user']
         repo = project['repo']
 
-        # gitUtil = GitUtil(user, repo)
-        # gitUtil.clone()
-        #
-        # tags = gitUtil.getTags()
-        # for tag in tags:
-        #     name = tag['name']
-        #     sha = tag['sha']
-        #
-        #     gitUtil.resetVersion(sha)
-        #     gitUtil.mvnInstall()
-        #     callGraph(user, repo, name)
-        #
-        # generateGraph(user, repo)
+        gitUtil = GitUtil(user, repo)
+        gitUtil.clone()
+
+        tags = gitUtil.getTags()
+        for tag in tags:
+            name = tag['name']
+            sha = tag['sha']
+
+            gitUtil.resetVersion(sha)
+            gitUtil.mvnInstall()
+            callGraph(user, repo, name)
+
+        generateGraph(user, repo)
 
     print 'Program ends'
