@@ -1,6 +1,6 @@
 import requests
 import json
-import subprocess
+from subprocess import call
 import Commons
 import os
 
@@ -42,13 +42,9 @@ class GitUtil():
         if os.path.exists(self.PROJECT_PATH):
             print 'Start pulling ' + self.user + '/' + self.repo
 
-            subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'git', 'fetch', '--all'], shell=True).wait()
-            subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'git', 'reset', '--hard', 'origin'], shell=True).wait()
-            subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'git', 'pull'], shell=True).wait()
-
-            # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'fetch', '--all'])
-            # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'reset', '--hard', 'origin'])
-            # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'pull'])
+            call(['git', 'fetch', '--all'], cwd=self.PROJECT_PATH, shell=True)
+            call(['git', 'reset', '--hard', 'origin'], cwd=self.PROJECT_PATH, shell=True)
+            call(['git', 'pull'], cwd=self.PROJECT_PATH, shell=True)
 
             return
 
@@ -56,25 +52,20 @@ class GitUtil():
         # sshUrl = 'git@github.com:'+self.user+'/'+self.repo+'.git'
         httpsUrl = 'https://github.com/'+self.user+'/'+self.repo+'.git'
 
-        # subprocess.check_call(['git', 'clone', httpsUrl, self.PROJECT_PATH], shell=True)
+        call(['git', 'clone', httpsUrl, self.PROJECT_PATH], shell=True)
 
-        subprocess.Popen(['git', 'clone', httpsUrl, self.PROJECT_PATH]).wait()
 
     def resetVersion(self, sha):
         print 'Start reset version'
-        subprocess.Popen(['git', 'reset', '--hard', sha], shell=True, cwd=self.PROJECT_PATH).wait()
-        subprocess.Popen(['git', 'clean', '-xdf'], shell=True, cwd=self.PROJECT_PATH).wait()
 
-        # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'reset', '--hard', sha])
-        # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'clean', '-xdf'])
+        call(['git', 'reset', '--hard', sha], cwd=self.PROJECT_PATH, shell=True)
+        call(['git', 'clean', '-xdf'], cwd=self.PROJECT_PATH, shell=True)
 
     def mvnInstall(self):
         print 'Maven install'
         try:
             # subprocess.check_call(['mvn', 'clean', 'install', '-DskipTests'], shell=True, cwd=self.PROJECT_PATH)
 
-            subprocess.Popen(['mvn', 'clean', 'install', '-Dmaven.test.skip=true'], shell=True, cwd=self.PROJECT_PATH).wait()
-
-            # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'mvn', 'clean', 'install', '-Dmaven.test.skip=true'])
+            call(['mvn', 'clean', 'install', '-Dmaven.test.skip=true'], cwd=self.PROJECT_PATH, shell=True)
         except:
             pass
