@@ -61,6 +61,7 @@ class GitUtil():
         subprocess.Popen(['git', 'clone', httpsUrl, self.PROJECT_PATH]).wait()
 
     def resetVersion(self, sha):
+        print 'Start reset version'
         subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'git', 'reset', '--hard', sha], shell=True).wait()
         subprocess.Popen(['cd', self.PROJECT_PATH, '&&', 'git', 'clean', '-xdf'], shell=True).wait()
 
@@ -68,6 +69,7 @@ class GitUtil():
         # subprocess.check_call(['cd', self.PROJECT_PATH, '&&', 'git', 'clean', '-xdf'])
 
     def mvnInstall(self):
+        print 'Maven install'
         try:
             # subprocess.check_call(['mvn', 'clean', 'install', '-DskipTests'], shell=True, cwd=self.PROJECT_PATH)
 
