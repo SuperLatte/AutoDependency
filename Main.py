@@ -1,7 +1,7 @@
 from GitUtil import GitUtil
 import Commons
 import os
-import subprocess
+from subprocess import call
 import json
 
 def callGraph(user, repo, tag):
@@ -21,8 +21,7 @@ def callGraph(user, repo, tag):
     for root, dirs, files in os.walk(PROJECT_PATH):
         for file in files:
             if file.endswith('.jar') and 'target' in root:
-                subprocess.check_call(['java', '-jar', Commons.CALLTOOL_PATH,
-                                       root+'/'+file, '>', OUTPUT_VERSION_PATH+file[:-4]+'.tmp'], shell=True)
+                call('java -jar '+Commons.CALLTOOL_PATH+' '+root+'/'+file+' > '+OUTPUT_VERSION_PATH+file[:-4]+'.tmp', shell=True)
 
 def generateGraph(user, repo):
     for root, dirs, files in os.walk(Commons.OUTPUT_PATH+repo+'/'):

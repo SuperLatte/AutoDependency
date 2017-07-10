@@ -52,20 +52,20 @@ class GitUtil():
         # sshUrl = 'git@github.com:'+self.user+'/'+self.repo+'.git'
         httpsUrl = 'https://github.com/'+self.user+'/'+self.repo+'.git'
 
-        call(['git clone '+httpsUrl+' '+self.PROJECT_PATH], shell=True)
+        call('git clone '+httpsUrl+' '+self.PROJECT_PATH, shell=True)
 
 
     def resetVersion(self, sha):
         print 'Start reset version'
 
-        call(['git reset --hard '+sha], cwd=self.PROJECT_PATH, shell=True)
-        call(['git', 'clean', '-xdf'], cwd=self.PROJECT_PATH, shell=True)
+        call('git reset --hard '+sha, cwd=self.PROJECT_PATH, shell=True)
+        call('git clean -xdf', cwd=self.PROJECT_PATH, shell=True)
 
     def mvnInstall(self):
         print 'Maven install'
         try:
             # subprocess.check_call(['mvn', 'clean', 'install', '-DskipTests'], shell=True, cwd=self.PROJECT_PATH)
 
-            call(['mvn clean install -Dmaven.test.skip=true'], cwd=self.PROJECT_PATH, shell=True)
+            call('mvn clean install -Dmaven.test.skip=true', cwd=self.PROJECT_PATH, shell=True)
         except:
             pass
